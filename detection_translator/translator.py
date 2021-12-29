@@ -1,6 +1,8 @@
 from pathlib import Path
 
-from data_loader import DetectionData, load_data
+from data_loader import DataLoader
+from detection import DetectionData
+from staff import StaffFinder
 
 
 class Translator:
@@ -12,8 +14,8 @@ class Translator:
         self._detection_data = self._load_data()
 
     def _load_data(self) -> DetectionData:
-        return load_data(self._file)
+        return DataLoader.load_file(self._file)
 
     def translate(self):
-
-        pass
+        staff_finder = StaffFinder(self._detection_data)
+        staff_finder.find()

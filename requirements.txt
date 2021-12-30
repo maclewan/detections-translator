@@ -1,1 +1,4 @@
 pymusicxml
+numpy
+sklearn
+Pillow

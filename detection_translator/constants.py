@@ -1,6 +1,6 @@
 DATA_PATH = 'data'
 BRACE_CLASS = 'brace'
-LINES_CLASSES = [BRACE_CLASS, 'end_line', 'bar_line']
+LINES_CLASSES = ['end_line', 'bar_line']
 STAFF_CLASS = 'staff'
 
 IMAGE_HEIGHT = 1320

@@ -1,15 +1,18 @@
+from collections import namedtuple
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Dict, List, Union, Tuple, Optional
-
-
-class Detection:
-    pass
+from PIL import Image
+from common import Point
 
 
 @dataclass
 class Detection:
     det_class: int
     box: List[int]
+    """
+    box: y_min, x_min, y_max, x_max
+    """
 
     @property
     def height(self) -> int:
@@ -20,15 +23,28 @@ class Detection:
         return self.box[3] - self.box[1]
 
     @property
-    def center(self) -> Tuple[int, int]:
+    def center(self) -> Point:
         """
         :return: Tuple(center_y, center_x)
         """
-        return (self.height // 2 + self.box[0],
-                self.width // 2 + self.box[1])
+        return Point(self.height // 2 + self.box[0],
+                     self.width // 2 + self.box[1])
+
+    def get_section(self, sections_y: List[int]):
+        section_distances = []
+        for y in sections_y:
+            section_distances.append((y, abs(self.center[0] - y)))
+
+        return min(section_distances, key=lambda s: s[1])[0]
+
+    def under(self, point: Point):
+        return self.box[0] > point.y
+
+    def above(self, point: Point):
+        return self.box[2] < point.y
 
     @staticmethod
-    def sort_detections(detections: List[Detection]) -> List[Detection]:
+    def sort_detections(detections: List['Detection']) -> List['Detection']:
         return list(sorted(detections, key=lambda d: (d.box[0], d.box[1])))
 
     def contains(self, y: Optional[int] = None, x: Optional[int] = None):
@@ -45,7 +61,8 @@ class Detection:
 
 @dataclass
 class DetectionData:
-    image: str
+    image_name: str
+    image: Image
     category_index: Dict[int, str]
     detections: List[Detection]
 

@@ -35,14 +35,15 @@ class StaffFinder:
         sections = []
 
         for brace in braces:
-            # if brace.box[1] > 0.25 * IMAGE_WIDTH:
-            #     continue
+            if brace.box[1] > 0.25 * IMAGE_WIDTH:
+                continue
 
             brace_center_y = brace.center[0]
             for s in sections:
-                #todo check if brace contains already existing section, if yes than exit
-                pass
-            sections.append(brace_center_y)
+                if brace.contains(y=s):
+                    break
+            else:
+                sections.append(brace_center_y)
 
         print(sections)
         return sections

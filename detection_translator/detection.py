@@ -34,8 +34,13 @@ class Detection:
     def contains(self, y: Optional[int] = None, x: Optional[int] = None):
         if y is None and x is None:
             raise ValueError('Point with None coordinates')
-        # todo: implement contain function
-
+        elif y is not None:
+            if not (self.box[2] > y > self.box[0]):
+                return False
+        elif x is not None:
+            if not (self.box[3] > x > self.box[1]):
+                return False
+        return True
 
 
 @dataclass

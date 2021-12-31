@@ -1,9 +1,9 @@
 from pathlib import Path
 from json import loads
 from typing import Dict, Any, List
-from PIL import Image
+from PIL.Image import open as open_image
 from constants import IMAGE_HEIGHT as HEIGHT, IMAGE_WIDTH as WIDTH
-from detection_translator.detection import DetectionData, Detection
+from detection import DetectionData, Detection
 
 
 class DataLoader:
@@ -19,13 +19,15 @@ class DataLoader:
         if not (image_name and category_index and detections):
             raise RuntimeError('Missing data in json')
 
-        image = Image.open(image_path)
+        image = open_image(image_path)
+        class_id_name_map = {v['id']: v['name'] for k, v in category_index.items()}
         detection_data = DetectionData(
             image_name=image_name,
             image=image,
-            category_index={v['id']: v['name'] for k, v in category_index.items()},
+            category_index=class_id_name_map,
             detections=[Detection(
-                det_class=d['class'],
+                det_class_id=d['class'],
+                det_class=class_id_name_map[d['class']],
                 box=[int(i) for i in
                      [d['box'][0] * HEIGHT, d['box'][1] * WIDTH, d['box'][2] * HEIGHT, d['box'][3] * WIDTH]
                      ]

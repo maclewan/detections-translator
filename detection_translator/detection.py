@@ -1,18 +1,35 @@
-from collections import namedtuple
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Dict, List, Union, Tuple, Optional
-from PIL import Image
+from typing import Dict, List, Union, Optional
+from PIL.Image import Image
 from common import Point
 
 
 @dataclass
 class Detection:
-    det_class: int
+    det_class_id: int
+    det_class: str
     box: List[int]
     """
     box: y_min, x_min, y_max, x_max
     """
+
+    @property
+    def pil_box(self):
+        """
+        :return: PIL box: [x-min, y-min, x-max, y-max]
+        """
+        return Detection.to_pil_box(self.box)
+
+    def extended_box(self, delta: int):
+        return [self.box[0]-delta, self.box[1]-delta, self.box[2]+delta, self.box[3]+delta]
+
+    @staticmethod
+    def to_pil_box(box):
+        return [b for b in [box[1], box[0], box[3], box[2]]]
+
+    @staticmethod
+    def from_pil_box(box):
+        return Detection.to_pil_box(box)
 
     @property
     def height(self) -> int:
@@ -68,8 +85,8 @@ class DetectionData:
 
     def filter_detection_classes(self, classes: Union[int, List[int]]) -> List[Detection]:
         if isinstance(classes, list):
-            return [d for d in self.detections if d.det_class in classes]
+            return [d for d in self.detections if d.det_class_id in classes]
         elif isinstance(classes, int):
-            return [d for d in self.detections if d.det_class == classes]
+            return [d for d in self.detections if d.det_class_id == classes]
         else:
             raise RuntimeError('Wrong data type as \'classes\'')

@@ -9,5 +9,4 @@ def find_regression(points: List[Point]) -> LinearRegression:
     y = np.array([p.y for p in points])
     model = LinearRegression()
     model.fit(x, y)
-
     return model

@@ -1,10 +1,14 @@
-from typing import List, Tuple, Any
+from typing import List, Tuple, Any, NewType
+from sklearn.linear_model import LinearRegression
 
 from constants import LINES_CLASSES, STAFF_CLASS, BRACE_CLASS, IMAGE_WIDTH
 from detection import DetectionData, Detection
 from common import Point
 from bar import find_bar_y_coordinates, Bar, find_bar_line_distances
 from math_utils import find_regression
+
+StaffPrototype = NewType('StaffPrototype', Tuple[Detection, List[Detection], List[Point], List[Point],
+                                                 LinearRegression, LinearRegression])
 
 
 class Staff:
@@ -32,11 +36,22 @@ class StaffFinder:
 
     def find(self) -> List[Staff]:
         staff_prototypes = self._generate_staff_prototypes()
-        for s in staff_prototypes:
-            print(s)
-            # todo
-        print(self._avg_lines_distance)
-        return []
+        staffs = [self._create_staff_from_prototype(staff_prototype) for staff_prototype in staff_prototypes]
+
+        return staffs
+
+    def _create_staff_from_prototype(self, prototype: StaffPrototype) -> Staff:
+        '''
+        Steps:
+        - Generate first bar using line model
+        - Generate remaining bars using tops nad bottoms
+        - Implement for bar functions checking if detection is inside this bar
+        - Implement for bar functions determining on which field/line is note using distances
+
+        '''
+        # Todo
+        self._calculate_avg([])
+        return Staff()
 
     def _generate_detection_classes(self) -> None:
         self._line_classes = [c for c, v in self._detection_data.category_index.items() if v in LINES_CLASSES]
@@ -64,7 +79,13 @@ class StaffFinder:
                 sections.append((brace_center_y, brace))
         return sections
 
-    def _generate_staff_prototypes(self) -> List[Any]:
+    @staticmethod
+    def _calculate_avg(distances: List[float]) -> float:
+        distances.pop(distances.index(max(distances)))
+        distances.pop(distances.index(min(distances)))
+        return round(sum(distances) / len(distances), 1)
+
+    def _generate_staff_prototypes(self) -> List[StaffPrototype]:
         sections = self._separate_sections()
         lines_distances = []
         staff_prototypes = []
@@ -80,15 +101,11 @@ class StaffFinder:
 
             tops = [Point(x=b.center.x, y=r[0]) for b, r in zip(bar_lines, y_ranges)]
             bottoms = [Point(x=b.center.x, y=r[1]) for b, r in zip(bar_lines, y_ranges)]
-
             top_line_model = find_regression(tops)
             bottom_line_model = find_regression(bottoms)
 
-            staff_prototypes.append((brace, bar_lines, top_line_model, bottom_line_model))
+            staff_prototypes.append(StaffPrototype((brace, bar_lines, tops, bottoms,
+                                                    top_line_model, bottom_line_model)))
 
-        # pop max, min, and calculate avg
-        lines_distances.pop(lines_distances.index(max(lines_distances)))
-        lines_distances.pop(lines_distances.index(min(lines_distances)))
-        self._avg_lines_distance = round(sum(lines_distances) / len(lines_distances), 1)
-
+        self._avg_lines_distance = self._calculate_avg(lines_distances)
         return staff_prototypes

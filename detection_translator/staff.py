@@ -1,4 +1,4 @@
-from typing import List, Tuple, Any, NewType
+from typing import List, Tuple, NewType
 from sklearn.linear_model import LinearRegression
 
 from constants import LINES_CLASSES, STAFF_CLASS, BRACE_CLASS, IMAGE_WIDTH

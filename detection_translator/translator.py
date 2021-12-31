@@ -20,4 +20,4 @@ class Translator:
 
     def translate(self):
         staff_finder = StaffFinder(self._detection_data)
-        staff_finder.find()
+        staffs = staff_finder.find()

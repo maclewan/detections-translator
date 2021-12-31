@@ -34,7 +34,8 @@ class StaffFinder:
         staff_prototypes = self._generate_staff_prototypes()
         for s in staff_prototypes:
             print(s)
-        # todo
+            # todo
+        print(self._avg_lines_distance)
         return []
 
     def _generate_detection_classes(self) -> None:
@@ -77,8 +78,8 @@ class StaffFinder:
                 [d for b in bar_lines if (d := find_bar_line_distances(b, self._detection_data.image)) is not None]
             )
 
-            tops = [Point(x=b.box[1], y=r[0]) for b, r in zip(bar_lines, y_ranges)]
-            bottoms = [Point(x=b.box[1], y=r[1]) for b, r in zip(bar_lines, y_ranges)]
+            tops = [Point(x=b.center.x, y=r[0]) for b, r in zip(bar_lines, y_ranges)]
+            bottoms = [Point(x=b.center.x, y=r[1]) for b, r in zip(bar_lines, y_ranges)]
 
             top_line_model = find_regression(tops)
             bottom_line_model = find_regression(bottoms)

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Tuple, List, Optional
+from typing import Any, Tuple, List, Optional, Union
 from PIL.Image import Image
 from detection import Detection
 from PIL import ImageEnhance
@@ -7,6 +7,7 @@ import numpy as np
 
 from constants import BAR_LINE_FIND_RATIO, END_LINE_FIND_RATIO, BAR_EXTENSION, MAX_ADDED_LINES, CENTER_FUNCTIONS
 from detection_translator.common import Point
+from detection_translator.math_utils import get_polynomial_predictor
 
 
 @dataclass
@@ -20,18 +21,13 @@ class Bar:
     is_start: bool
     is_end: bool
 
-    '''
-    Steps:
-    - Implement for bar functions determining on which field/line is note using distances
-
-    '''
-
     def __post_init__(self):
-        pass
+        self.top_line_predictor = get_polynomial_predictor(self.left_top, self.right_top)
+        self.bottom_line_predictor = get_polynomial_predictor(self.left_bottom, self.right_bottom)
 
     @property
     def center_y(self) -> int:
-        return self.left_top.y + (self.right_bottom.y - self.left_top.y)//2
+        return self.left_top.y + (self.right_bottom.y - self.left_top.y) // 2
 
     @staticmethod
     def _detection_center(detection: Detection):
@@ -49,17 +45,18 @@ class Bar:
 
     def get_location(self, detection: Detection):
         center = self._detection_center(detection)
-
         if center > self.center_y:
-            # top staff scenario,
-
-            pass
+            # top staff scenario
+            bottom_line_y = self.top_line_predictor(detection.center.x) - self.line_distance * (self.lines_count - 1)
         else:
             # bottom staff scenario
-            pass
+            bottom_line_y = self.bottom_line_predictor(detection.center.x)
+        line = self._get_line_number(bottom_line_y, detection.center.y)
+        return line
 
-
-
+    def _get_line_number(self, bottom_line_y: float, detection_y: Union[int, float]):
+        result = (bottom_line_y - detection_y) / self.line_distance
+        return round(result * 2) / 2
 
     @staticmethod
     def find_bar_y_coordinates(bar: Detection, image: Image) -> Tuple[int, int]:

@@ -42,10 +42,19 @@ class Detection:
     @property
     def center(self) -> Point:
         """
-        :return: Tuple(center_y, center_x)
+        :return: Point(center_y, center_x)
         """
         return Point(self.height // 2 + self.box[0],
                      self.width // 2 + self.box[1])
+
+    def center_translated(self, x_translation=0, y_translation=0) -> Point:
+        """
+        :param x_translation: percent of detection right if positive, left if negative to translate x
+        :param y_translation: percent of detection down if positive, up if negative to translate y
+        :return: Point(translated_center_y, translated_center_x)
+        """
+        return Point(self.height // 2 + self.box[0] + x_translation/100 * self.height,
+                     self.width // 2 + self.box[1] + + y_translation/100 * self.width)
 
     def get_section(self, sections_y: List[int]):
         section_distances = []

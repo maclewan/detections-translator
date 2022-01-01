@@ -5,7 +5,7 @@ from detection import Detection
 from PIL import ImageEnhance
 import numpy as np
 
-from constants import BAR_LINE_FIND_RATIO, END_LINE_FIND_RATIO, BAR_EXTENSION
+from constants import BAR_LINE_FIND_RATIO, END_LINE_FIND_RATIO, BAR_EXTENSION, MAX_ADDED_LINES, CENTER_FUNCTIONS
 from detection_translator.common import Point
 
 
@@ -22,11 +22,44 @@ class Bar:
 
     '''
     Steps:
-    - Implement for bar functions checking if detection is inside this bar
     - Implement for bar functions determining on which field/line is note using distances
 
     '''
-    # Todo
+
+    def __post_init__(self):
+        pass
+
+    @property
+    def center_y(self) -> int:
+        return self.left_top.y + (self.right_bottom.y - self.left_top.y)//2
+
+    @staticmethod
+    def _detection_center(detection: Detection):
+        return CENTER_FUNCTIONS[detection.det_class](detection)
+
+    def __contains__(self, detection: Detection):
+        center = self._detection_center(detection)
+
+        if not (self.left_bottom.x < center.x < self.right_top.x):
+            return False
+        if not (self.left_top.y - self.line_distance * MAX_ADDED_LINES < center.y
+                < self.right_bottom.y + self.line_distance * MAX_ADDED_LINES):
+            return False
+        return True
+
+    def get_location(self, detection: Detection):
+        center = self._detection_center(detection)
+
+        if center > self.center_y:
+            # top staff scenario,
+
+            pass
+        else:
+            # bottom staff scenario
+            pass
+
+
+
 
     @staticmethod
     def find_bar_y_coordinates(bar: Detection, image: Image) -> Tuple[int, int]:
@@ -68,8 +101,8 @@ def _find_horizontal_lines_distances(image_np: Any, detection_class: str) -> Opt
         black_coverage = black_ctr / (black_ctr + white_ctr)
         # check if two previous are not counted as line
         if (black_coverage >= find_ratio
-                and i-1 not in lines_deltas
-                and i-2 not in lines_deltas):
+                and i - 1 not in lines_deltas
+                and i - 2 not in lines_deltas):
             lines_deltas.append(i)
             # stop when all 5 lines found
             if len(lines_deltas) == 5:
@@ -77,8 +110,8 @@ def _find_horizontal_lines_distances(image_np: Any, detection_class: str) -> Opt
     else:
         return None
 
-    distances = [f-s for s, f in zip(lines_deltas[:-1], lines_deltas[1:])]
-    return sum(distances)/len(distances)
+    distances = [f - s for s, f in zip(lines_deltas[:-1], lines_deltas[1:])]
+    return sum(distances) / len(distances)
 
 
 def _find_horizontal_line_margin(image_np: Any, detection_class: str, from_top: bool = True) -> int:

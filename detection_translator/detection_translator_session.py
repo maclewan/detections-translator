@@ -26,4 +26,9 @@ class DetectionTranslatorSession:
     def process(self):
         staff_finder = self._staff_generator(self._detection_data)
         staffs = staff_finder.generate()
+
+        # for d in self._detection_data.filter_detection_classes(11):
+        #     if (d in staffs[2].bars[1]):
+        #         print(True, d)
+
         print('Done')

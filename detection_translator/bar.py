@@ -43,7 +43,12 @@ class Bar:
             return False
         return True
 
-    def get_location(self, detection: Detection):
+    def get_location(self, detection: Detection) -> Tuple[float, SubStaff]:
+        """
+        :param detection: Detection
+        :return: If value is int: line number counted from 1 up to lines_count, where all above/below this range are
+        interpreted as added lines. If value is Float (x.5): field number, where field is above `int(result)` line
+        """
         center = self._detection_center(detection)
         if center.y < self.center_y:
             sub_staff = SubStaff.TOP

@@ -4,7 +4,7 @@ from detection_translator.constants import LINES_CLASSES, STAFF_CLASS, BRACE_CLA
 from detection_translator.detection import DetectionData, Detection
 from detection_translator.common import Point
 from detection_translator.bar import Bar
-from detection_translator.staff_generator.staff_generator import Staff, BaseStaffGenerator
+from detection_translator.staff_generator.base_staff_generator import Staff, BaseStaffGenerator
 from detection_translator.math_utils import find_regression
 from detection_translator.staff import StaffPrototype
 

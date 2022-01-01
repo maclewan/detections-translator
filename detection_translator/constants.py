@@ -11,7 +11,7 @@ BAR_LINE_FIND_RATIO = 0.6
 END_LINE_FIND_RATIO = 0.45
 
 MAX_ADDED_LINES = 1
-CENTERED_CLASSES = ['head1', 'head2', 'sign1', 'sign3']
+CENTERED_CLASSES = ['head1', 'head2', 'sign1', 'sign3', 'clef', 'clef2']
 CENTER_FUNCTIONS = {
     c: (lambda detection: detection.center) for c in CENTERED_CLASSES
 }

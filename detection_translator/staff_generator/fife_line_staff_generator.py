@@ -1,15 +1,17 @@
 from typing import List, Tuple
-
+import numpy as np
 from detection_translator.constants import LINES_CLASSES, STAFF_CLASS, BRACE_CLASS, IMAGE_WIDTH
 from detection_translator.detection import DetectionData, Detection
 from detection_translator.common import Point
 from detection_translator.bar import Bar
-from base_staff_generator import Staff, BaseStaffGenerator
+from detection_translator.staff_generator.staff_generator import Staff, BaseStaffGenerator
 from detection_translator.math_utils import find_regression
 from detection_translator.staff import StaffPrototype
 
 
 class FifeLineStaffGenerator(BaseStaffGenerator):
+    _lines_count = 5
+    _avg_lines_distance: int
 
     def __init__(self, detection_data: DetectionData):
         super().__init__(detection_data)
@@ -17,33 +19,41 @@ class FifeLineStaffGenerator(BaseStaffGenerator):
         self._generate_detection_classes()
         self._get_detections()
 
-    def find(self) -> List[Staff]:
+    def generate(self) -> List[Staff]:
         staff_prototypes = self._generate_staff_prototypes()
-        staffs = [self._create_staff_from_prototype(staff_prototype) for staff_prototype in staff_prototypes]
+        staffs = [self._create_staff_from_prototype(i, staff_prototype)
+                  for i, staff_prototype in enumerate(staff_prototypes)]
 
         return staffs
 
-    def _create_staff_from_prototype(self, prototype: StaffPrototype) -> Staff:
+    def _create_staff_from_prototype(self, index: int, prototype: StaffPrototype) -> Staff:
         # Generate first bar
-        start_top = Point(y=prototype.top_line_model.predict(prototype.brace.box[3]), x=prototype.brace.box[3])
-        start_bottom = Point(y=prototype.bottom_line_model.predict(prototype.brace.box[3]), x=prototype.brace.box[3])
-        first_bar = self._create_bar(prototype.brace, prototype.bar_lines[0], [start_top])
+        brace_x = prototype.brace.box[3]
+        np_brace_x = np.array(brace_x).reshape(-1, 1)
+        start_top = Point(y=int(prototype.top_line_model.predict(np_brace_x)[0]), x=brace_x)
+        start_bottom = Point(y=int(prototype.bottom_line_model.predict(np_brace_x)[0]), x=brace_x)
+        first_bar = self._create_bar(prototype.brace, prototype.bar_lines[0],
+                                     [start_top, prototype.tops[0]], [start_bottom, prototype.bottoms[0]])
+        # Generate remaining bars
+        bars = [first_bar]
+        for i in range(len(prototype.bar_lines) - 1):
+            bar = self._create_bar(prototype.bar_lines[i], prototype.bar_lines[i + 1],
+                                   prototype.tops[i:i + 2], prototype.bottoms[i:i + 2])
+            bars.append(bar)
 
-        '''
-        Steps:
-        - Generate first bar using line model
-        - Generate remaining bars using tops nad bottoms
-        - Implement for bar functions checking if detection is inside this bar
-        - Implement for bar functions determining on which field/line is note using distances
-
-        '''
-        # Todo
-        self._calculate_avg([])
-        return Staff()
+        return Staff(index, bars)
 
     def _create_bar(self, start: Detection, end: Detection, tops: List[Point], bottoms: List[Point]) -> Bar:
-
-        pass
+        return Bar(
+            left_bottom=bottoms[0],
+            left_top=tops[0],
+            right_bottom=bottoms[1],
+            right_top=tops[1],
+            lines_count=self._lines_count,
+            line_distance=self._avg_lines_distance,
+            is_start=start.det_class == 'brace',
+            is_end=end.det_class == 'end_line'
+        )
 
     def _generate_detection_classes(self) -> None:
         self._line_classes = [c for c, v in self._detection_data.category_index.items() if v in LINES_CLASSES]

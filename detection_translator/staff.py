@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import List, Tuple, NewType, NamedTuple
 from sklearn.linear_model import LinearRegression
 from detection_translator.common import Point
@@ -14,8 +15,8 @@ class StaffPrototype(NamedTuple):
     bottom_line_model: LinearRegression
 
 
+@dataclass
 class Staff:
-    _bars = List[Bar]
+    index: int
+    bars: List[Bar]
 
-    def __init__(self):
-        pass

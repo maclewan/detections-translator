@@ -12,13 +12,12 @@ class BaseStaffGenerator(ABC):
     _bar_lines: List[Detection]
     _braces: List[Detection]
     _staff_bars: List[Detection]
-    _avg_lines_distance: float
 
     def __init__(self, detection_data: DetectionData):
         self._detection_data = detection_data
         pass
 
-    def find(self) -> List[Staff]:
+    def generate(self) -> List[Staff]:
         pass
 
     @staticmethod
@@ -26,3 +25,5 @@ class BaseStaffGenerator(ABC):
         distances.pop(distances.index(max(distances)))
         distances.pop(distances.index(min(distances)))
         return round(sum(distances) / len(distances), 1)
+
+

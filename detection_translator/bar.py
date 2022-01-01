@@ -6,18 +6,27 @@ from PIL import ImageEnhance
 import numpy as np
 
 from constants import BAR_LINE_FIND_RATIO, END_LINE_FIND_RATIO, BAR_EXTENSION
+from detection_translator.common import Point
 
 
 @dataclass
 class Bar:
-    left_bottom: Tuple[int, int]
-    left_top: Tuple[int, int]
-    right_bottom: Tuple[int, int]
-    right_top: Tuple[int, int]
+    left_bottom: Point
+    left_top: Point
+    right_bottom: Point
+    right_top: Point
     lines_count: int
     line_distance: int
     is_start: bool
     is_end: bool
+
+    '''
+    Steps:
+    - Implement for bar functions checking if detection is inside this bar
+    - Implement for bar functions determining on which field/line is note using distances
+
+    '''
+    # Todo
 
     @staticmethod
     def find_bar_y_coordinates(bar: Detection, image: Image) -> Tuple[int, int]:

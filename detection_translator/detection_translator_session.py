@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Type
+from typing import Type, List
 
 from data_loader import DataLoader
 from detection import DetectionData
@@ -13,6 +13,7 @@ class DetectionTranslatorSession:
     _file: Path
     _image_path: Path
     _staff_generator: Type[BaseStaffGenerator]
+    _translators: List[Type[BaseFeatureTranslator]]
 
     def __init__(self, file: Path, image_path: Path, notation_type: NotationType):
         self._file = file
@@ -26,6 +27,17 @@ class DetectionTranslatorSession:
     def process(self):
         staff_finder = self._staff_generator(self._detection_data)
         staffs = staff_finder.generate()
+
+
+
+
+        det = self._detection_data.filter_detection_classes(3)
+        det = [d for d in det if d in staffs[0].bars[0]]
+        print(staffs[0].bars[0])
+
+        for d in det:
+            t = staffs[0].bars[0].get_location(d)
+            print(t, d)
 
         # for d in self._detection_data.filter_detection_classes(11):
         #     if (d in staffs[2].bars[1]):

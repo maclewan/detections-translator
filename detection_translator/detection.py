@@ -9,9 +9,13 @@ class Detection:
     det_class_id: int
     det_class: str
     box: List[int]
+    staff_id: int = None
     """
     box: y_min, x_min, y_max, x_max
     """
+
+    def set_staff(self, staff_id: int):
+        self.staff_id = staff_id
 
     @property
     def pil_box(self):

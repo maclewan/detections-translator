@@ -2,10 +2,10 @@ from pathlib import Path
 
 from data_loader import DataLoader
 from detection import DetectionData
-from staff import StaffFinder
+from fife_line_staff_generator import FifeLineStaffGenerator
 
 
-class Translator:
+class SessionProcessor:
     _detection_data: DetectionData
     _file: Path
     _image_path: Path
@@ -18,6 +18,6 @@ class Translator:
     def _load_data(self) -> DetectionData:
         return DataLoader.load_file(self._file, self._image_path)
 
-    def translate(self):
-        staff_finder = StaffFinder(self._detection_data)
+    def process(self):
+        staff_finder = FifeLineStaffGenerator(self._detection_data)
         staffs = staff_finder.find()

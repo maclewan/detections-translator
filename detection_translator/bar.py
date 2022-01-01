@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Any, Tuple, List, Optional
 from PIL.Image import Image
 from detection import Detection
@@ -7,40 +8,41 @@ import numpy as np
 from constants import BAR_LINE_FIND_RATIO, END_LINE_FIND_RATIO, BAR_EXTENSION
 
 
+@dataclass
 class Bar:
-    _left_bottom: Tuple[int, int]
-    _left_top: Tuple[int, int]
-    _right_bottom: Tuple[int, int]
-    _right_top: Tuple[int, int]
-    _line_distance: int
+    left_bottom: Tuple[int, int]
+    left_top: Tuple[int, int]
+    right_bottom: Tuple[int, int]
+    right_top: Tuple[int, int]
+    lines_count: int
+    line_distance: int
+    is_start: bool
+    is_end: bool
 
-    def __init__(self):
-        pass
+    @staticmethod
+    def find_bar_y_coordinates(bar: Detection, image: Image) -> Tuple[int, int]:
+        """
+        :param bar: detected Bar
+        :param image: whole PIL image
+        :return: y_min, y_max
+        """
+        extended_box = bar.extended_box(BAR_EXTENSION)
+        prepared_image = _prepare_pil_image(extended_box, image)
+        image_np = np.array(prepared_image)
 
+        top_margin = _find_horizontal_line_margin(image_np, bar.det_class, from_top=True)
+        bottom_margin = _find_horizontal_line_margin(image_np, bar.det_class, from_top=False)
 
-def find_bar_y_coordinates(bar: Detection, image: Image) -> Tuple[int, int]:
-    """
-    :param bar: detected Bar
-    :param image: whole PIL image
-    :return: y_min, y_max
-    """
-    extended_box = bar.extended_box(BAR_EXTENSION)
-    prepared_image = _prepare_pil_image(extended_box, image)
-    image_np = np.array(prepared_image)
+        return extended_box[0] + top_margin, extended_box[2] - bottom_margin
 
-    top_margin = _find_horizontal_line_margin(image_np, bar.det_class, from_top=True)
-    bottom_margin = _find_horizontal_line_margin(image_np, bar.det_class, from_top=False)
+    @staticmethod
+    def find_bar_line_distances(bar: Detection, image: Image) -> float:
+        extended_box = bar.extended_box(BAR_EXTENSION)
+        prepared_image = _prepare_pil_image(extended_box, image)
+        image_np = np.array(prepared_image)
 
-    return extended_box[0] + top_margin, extended_box[2] - bottom_margin
-
-
-def find_bar_line_distances(bar: Detection, image: Image) -> float:
-    extended_box = bar.extended_box(BAR_EXTENSION)
-    prepared_image = _prepare_pil_image(extended_box, image)
-    image_np = np.array(prepared_image)
-
-    distance = _find_horizontal_lines_distances(image_np, bar.det_class)
-    return distance
+        distance = _find_horizontal_lines_distances(image_np, bar.det_class)
+        return distance
 
 
 def _find_horizontal_lines_distances(image_np: Any, detection_class: str) -> Optional[float]:

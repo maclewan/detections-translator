@@ -51,4 +51,5 @@ class NoteTranslator(BaseFeatureTranslator):
                 continue
 
         sections_sorted = sorted(sections, key=lambda s: s[0].center.x)
+        sections_sorted = [sorted(ss, key=lambda s: s.center.y) for ss in sections_sorted]
         return sections_sorted

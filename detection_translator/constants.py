@@ -19,7 +19,7 @@ OVERLAP_PARAMETER = 0.85
 
 HEAD_AREA_MARGIN = 2.3
 
-MAX_ADDED_LINES = 1
+MAX_ADDED_LINES = 2
 CENTERED_CLASSES = ['head1', 'head2', 'sign1', 'sign3', 'clef', 'clef2']
 CENTER_FUNCTIONS = {
     c: (lambda detection: detection.center) for c in CENTERED_CLASSES

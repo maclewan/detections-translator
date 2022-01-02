@@ -77,7 +77,7 @@ class Bar:
         else:
             temp = (bottom_line_y - detection_y) - (self.line_distance * 4)
             result = 4 + temp / (self.line_distance * 1.1)
-        return round(result * 2) / 3
+        return round(result * 2) / 2
 
     @staticmethod
     def find_bar_y_coordinates(bar: Detection, image: Image) -> Tuple[int, int]:

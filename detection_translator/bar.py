@@ -70,8 +70,14 @@ class Bar:
         return line, sub_staff
 
     def _get_line_number(self, bottom_line_y: float, detection_y: Union[int, float]):
-        result = (bottom_line_y - detection_y) / self.line_distance
-        return round(result * 2) / 2
+        if bottom_line_y - detection_y < 0:
+            result = (bottom_line_y - detection_y) / (self.line_distance * 1.1)
+        elif bottom_line_y - detection_y < self.line_distance * (self.lines_count-1):
+            result = (bottom_line_y - detection_y) / self.line_distance
+        else:
+            temp = (bottom_line_y - detection_y) - (self.line_distance * 4)
+            result = 4 + temp / (self.line_distance * 1.1)
+        return round(result * 2) / 3
 
     @staticmethod
     def find_bar_y_coordinates(bar: Detection, image: Image) -> Tuple[int, int]:

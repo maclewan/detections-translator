@@ -25,27 +25,30 @@ class NoteTranslator(BaseFeatureTranslator):
     @staticmethod
     def _generate_sections(bar: Bar, detections: List[Detection]):
         bar_notes = [d for d in detections if d in bar]
-        bar_notes.sort(key=lambda d: d.center.x)
+        bar_notes.sort(key=lambda d: d.center.y)
 
         sections = []
         for note in bar_notes:
             if not ((bar.line_distance ** 2) * HEAD_AREA_MARGIN > note.height * note.width):
-                print('Is it note?', note)
-                print('Skipping...')
+                print('Is it note?', note, 'Skipping...')
                 continue
             if not sections:
                 sections.append([note])
                 continue
-            last_section = sections[-1]
-            for section_note in last_section:
-                if (section_note.contains(x=note.center.x) or
-                        (section_note.contains(y=note.center.y, margin=bar.line_distance // 3) and
-                         section_note.contains(x=note.center.x, margin=(bar.line_distance * 2 // 3)))):
-                    sections[-1].append(note)
-                    break
+            for section in sections[::-1]:
+
+                for section_note in section:
+                    if (section_note.contains(x=note.center.x) or
+                            (section_note.contains(y=note.center.y, margin=bar.line_distance // 3) and
+                             section_note.contains(x=note.center.x, margin=(bar.line_distance * 2 // 3)))):
+                        section.append(note)
+                        break
+                else:
+                    continue
+                break
             else:
                 sections.append([note])
                 continue
-        return sections
 
-
+        sections_sorted = sorted(sections, key=lambda s: s[0].center.x)
+        return sections_sorted

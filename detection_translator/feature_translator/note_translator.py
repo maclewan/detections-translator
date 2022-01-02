@@ -1,11 +1,9 @@
 from typing import List
 
 from detection_translator.bar import Bar
-from detection_translator.common import SubStaff
 from detection_translator.constants import NOTE_CLASSES, HEAD_AREA_MARGIN
 from detection_translator.detection import DetectionData, Detection
 from detection_translator.feature_translator.base_feature_translator import BaseFeatureTranslator
-from detection_translator.clef import Clef
 from detection_translator.note import Note
 from detection_translator.staff import Staff
 
@@ -22,7 +20,7 @@ class NoteTranslator(BaseFeatureTranslator):
         for bar in staff.bars:
             sections = self._generate_sections(bar, detections)
             sections_translated = [[self._translate_detection(detection, bar) for detection in section] for section in sections]
-            print('dupa')
+            bar.sections = sections_translated
 
     @staticmethod
     def _generate_sections(bar: Bar, detections: List[Detection]):

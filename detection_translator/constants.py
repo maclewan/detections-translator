@@ -1,6 +1,3 @@
-from detection_translator.common import SubStaff
-from detection_translator.clef import Clef
-
 DATA_PATH = 'data'
 BRACE_CLASS = 'brace'
 LINES_CLASSES = ['end_line', 'bar_line']

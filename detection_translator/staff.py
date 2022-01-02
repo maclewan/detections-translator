@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Tuple, NewType, NamedTuple
+from typing import List, NamedTuple
 from sklearn.linear_model import LinearRegression
 from detection_translator.common import Point
 from detection_translator.bar import Bar

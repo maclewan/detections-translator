@@ -32,7 +32,7 @@ class Bar:
             SubStaff.TOP: None,
             SubStaff.BOTTOM: None
         }
-        self.section = []
+        self.sections = []
 
     @property
     def center_y(self) -> int:

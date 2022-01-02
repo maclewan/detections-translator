@@ -4,7 +4,8 @@ from typing import Type, List
 from data_loader import DataLoader
 from detection import DetectionData
 from detection_translator.feature_translator.base_feature_translator import BaseFeatureTranslator
-from detection_translator.feature_translator.cleff_translator import CleffTranslator
+from detection_translator.feature_translator.clef_translator import ClefTranslator
+from detection_translator.feature_translator.note_translator import NoteTranslator
 from detection_translator.notation import NotationType
 from detection_translator.staff_generator.base_staff_generator import BaseStaffGenerator
 from detection_translator.staff_generator.staff_generator_factory import StaffGeneratorFactory
@@ -31,8 +32,11 @@ class DetectionTranslatorSession:
         staffs = staff_finder.generate()
 
         ## Test:
-        ct = CleffTranslator(staffs, self._detection_data)
+        ct = ClefTranslator(staffs, self._detection_data)
         ct.translate()
+
+        nt = NoteTranslator(staffs, self._detection_data)
+        nt.translate()
 
 
         # det = self._detection_data.filter_detection_classes(3)

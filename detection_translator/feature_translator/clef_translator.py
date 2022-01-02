@@ -8,7 +8,7 @@ from detection_translator.features import Clef
 from detection_translator.staff import Staff
 
 
-class CleffTranslator(BaseFeatureTranslator):
+class ClefTranslator(BaseFeatureTranslator):
 
     def __init__(self, staffs: List[Staff], detection_data: DetectionData):
         translator_classes = [k for k, v in detection_data.category_index.items() if v in CLEFS_CLASSES]

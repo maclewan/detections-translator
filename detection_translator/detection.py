@@ -78,14 +78,20 @@ class Detection:
     def sort_detections(detections: List['Detection']) -> List['Detection']:
         return list(sorted(detections, key=lambda d: (d.box[0], d.box[1])))
 
-    def contains(self, y: Optional[int] = None, x: Optional[int] = None):
+    def contains(self, y: Optional[int] = None, x: Optional[int] = None, margin: int = 0) -> bool:
+        """
+        :param y: y coordinate (int)
+        :param x: x coordinate (int)
+        :param margin: additional margin
+        :return: if detection contains given coordinates
+        """
         if y is None and x is None:
             raise ValueError('Point with None coordinates')
         elif y is not None:
-            if not (self.box[2] > y > self.box[0]):
+            if not (self.box[2] + margin > y > self.box[0] - margin):
                 return False
         elif x is not None:
-            if not (self.box[3] > x > self.box[1]):
+            if not (self.box[3] + margin > x > self.box[1] - margin):
                 return False
         return True
 

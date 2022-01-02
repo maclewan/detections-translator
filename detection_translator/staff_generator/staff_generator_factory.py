@@ -1,4 +1,4 @@
-from detection_translator.notation import NotationType
+from detection_translator.common import NotationType
 from detection_translator.staff_generator.fife_line_staff_generator import FifeLineStaffGenerator
 
 

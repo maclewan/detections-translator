@@ -7,8 +7,9 @@ import numpy as np
 
 from constants import BAR_LINE_FIND_RATIO, END_LINE_FIND_RATIO, BAR_EXTENSION, MAX_ADDED_LINES, CENTER_FUNCTIONS
 from detection_translator.common import Point, SubStaff
-from detection_translator.features import Clef
+from detection_translator.clef import Clef
 from detection_translator.math_utils import get_polynomial_predictor
+from detection_translator.note import Note
 
 
 @dataclass
@@ -22,6 +23,7 @@ class Bar:
     is_start: bool
     is_end: bool
     clefs: Dict[SubStaff, Optional[Clef]] = None
+    sections: List[List[Note]] = None
 
     def __post_init__(self):
         self._top_line_predictor = get_polynomial_predictor(self.left_top, self.right_top)
@@ -30,6 +32,7 @@ class Bar:
             SubStaff.TOP: None,
             SubStaff.BOTTOM: None
         }
+        self.section = []
 
     @property
     def center_y(self) -> int:
@@ -52,7 +55,7 @@ class Bar:
     def get_location(self, detection: Detection) -> Tuple[float, SubStaff]:
         """
         :param detection: Detection
-        :return: If value is int: line number counted from 1 up to lines_count, where all above/below this range are
+        :return: If value is int: line number counted from 0 up to lines_count-1, where all above/below this range are
         interpreted as added lines. If value is Float (x.5): field number, where field is above `int(result)` line
         """
         center = self._detection_center(detection)
@@ -68,7 +71,7 @@ class Bar:
 
     def _get_line_number(self, bottom_line_y: float, detection_y: Union[int, float]):
         result = (bottom_line_y - detection_y) / self.line_distance
-        return (round(result * 2) / 2) + 1
+        return round(result * 2) / 2
 
     @staticmethod
     def find_bar_y_coordinates(bar: Detection, image: Image) -> Tuple[int, int]:

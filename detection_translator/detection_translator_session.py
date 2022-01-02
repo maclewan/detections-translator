@@ -6,7 +6,7 @@ from detection import DetectionData
 from detection_translator.feature_translator.base_feature_translator import BaseFeatureTranslator
 from detection_translator.feature_translator.clef_translator import ClefTranslator
 from detection_translator.feature_translator.note_translator import NoteTranslator
-from detection_translator.notation import NotationType
+from detection_translator.common import NotationType
 from detection_translator.staff_generator.base_staff_generator import BaseStaffGenerator
 from detection_translator.staff_generator.staff_generator_factory import StaffGeneratorFactory
 

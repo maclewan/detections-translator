@@ -1,5 +1,5 @@
 from detection_translator.common import SubStaff
-from detection_translator.features import Clef
+from detection_translator.clef import Clef
 
 DATA_PATH = 'data'
 BRACE_CLASS = 'brace'

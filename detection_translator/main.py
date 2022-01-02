@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from constants import DATA_PATH
-from detection_translator.notation import NotationType
+from detection_translator.common import NotationType
 from detection_translator_session import DetectionTranslatorSession
 
 

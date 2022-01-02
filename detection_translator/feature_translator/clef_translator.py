@@ -4,7 +4,7 @@ from detection_translator.common import SubStaff
 from detection_translator.constants import CLEFS_CLASSES
 from detection_translator.detection import DetectionData
 from detection_translator.feature_translator.base_feature_translator import BaseFeatureTranslator
-from detection_translator.features import Clef
+from detection_translator.clef import Clef
 from detection_translator.staff import Staff
 
 

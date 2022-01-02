@@ -5,7 +5,8 @@ from detection_translator.common import SubStaff
 from detection_translator.constants import NOTE_CLASSES, HEAD_AREA_MARGIN
 from detection_translator.detection import DetectionData, Detection
 from detection_translator.feature_translator.base_feature_translator import BaseFeatureTranslator
-from detection_translator.features import Clef
+from detection_translator.clef import Clef
+from detection_translator.note import Note
 from detection_translator.staff import Staff
 
 
@@ -20,6 +21,7 @@ class NoteTranslator(BaseFeatureTranslator):
 
         for bar in staff.bars:
             sections = self._generate_sections(bar, detections)
+            sections_translated = [[self._translate_detection(detection, bar) for detection in section] for section in sections]
             print('dupa')
 
     @staticmethod
@@ -53,3 +55,11 @@ class NoteTranslator(BaseFeatureTranslator):
         sections_sorted = sorted(sections, key=lambda s: s[0].center.x)
         sections_sorted = [sorted(ss, key=lambda s: s.center.y) for ss in sections_sorted]
         return sections_sorted
+
+    @staticmethod
+    def _translate_detection(detection: Detection, bar: Bar) -> Note:
+        line, sub_staff = bar.get_location(detection)
+
+        staff_first_note = bar.clefs[sub_staff].get_first_line_note()
+        note = staff_first_note.plus(line*2)
+        return note

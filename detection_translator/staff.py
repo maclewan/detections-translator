@@ -19,7 +19,6 @@ class StaffPrototype(NamedTuple):
 class Staff:
     index: int
     bars: List[Bar]
-    test = False
 
     def __contains__(self, detection: Detection):
         for bar in self.bars:

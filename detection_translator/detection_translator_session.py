@@ -31,7 +31,7 @@ class DetectionTranslatorSession:
         staffs = staff_finder.generate()
 
         ## Test:
-        ct = CleffTranslator(staffs, self._detection_data, [1, 2])
+        ct = CleffTranslator(staffs, self._detection_data)
         ct.translate()
 
 

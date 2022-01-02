@@ -22,6 +22,8 @@ class BaseFeatureTranslator(ABC):
     def _filter_detections(self):
         detections = self._detection_data.filter_detection_classes(self._translator_classes)
         self._update_detection_staff(detections)
+        detections = Detection.filter_multiple_occurrences(detections)
+        detections.sort(key=lambda d: d.center.x)
         self._filtered_detections = detections
 
     def _update_detection_staff(self, detections: List[Detection]):

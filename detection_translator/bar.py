@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Tuple, List, Optional, Union
+from typing import Any, Tuple, List, Optional, Union, Dict
 from PIL.Image import Image
 from detection import Detection
 from PIL import ImageEnhance
@@ -7,6 +7,7 @@ import numpy as np
 
 from constants import BAR_LINE_FIND_RATIO, END_LINE_FIND_RATIO, BAR_EXTENSION, MAX_ADDED_LINES, CENTER_FUNCTIONS
 from detection_translator.common import Point, SubStaff
+from detection_translator.features import Clef
 from detection_translator.math_utils import get_polynomial_predictor
 
 
@@ -20,10 +21,15 @@ class Bar:
     line_distance: int
     is_start: bool
     is_end: bool
+    clefs: Dict[SubStaff, Optional[Clef]] = None
 
     def __post_init__(self):
         self._top_line_predictor = get_polynomial_predictor(self.left_top, self.right_top)
         self._bottom_line_predictor = get_polynomial_predictor(self.left_bottom, self.right_bottom)
+        self.clefs = {
+            SubStaff.TOP: None,
+            SubStaff.BOTTOM: None
+        }
 
     @property
     def center_y(self) -> int:

@@ -39,7 +39,8 @@ class DetectionTranslatorSession:
         nt = NoteTranslator(staffs, self._detection_data)
         nt.translate()
 
-        mxml_generator = MusicXmlGenerator(staffs[1])
-        mxml_generator.generate()
+        for i, staff in enumerate(staffs):
+            mxml_generator = MusicXmlGenerator(staff)
+            mxml_generator.generate(name=f'staff{i}')
 
         print('Done')

@@ -18,7 +18,6 @@ def _parse_args():
                         help='directory containing required files (detections json and image)')
 
     args = parser.parse_args()
-    print(args)
     return args
 
 

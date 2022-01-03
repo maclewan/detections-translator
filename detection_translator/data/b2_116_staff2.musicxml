@@ -2,7 +2,7 @@
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
 <score-partwise>
 	<work>
-		<work-title>detection_translator/data/b2_116_staff2</work-title>
+		<work-title>data/b2_116_staff2</work-title>
 	</work>
 	<identification>
 		<creator type="composer">detections-translator</creator>

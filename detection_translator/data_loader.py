@@ -9,7 +9,7 @@ from detection_translator.detection import DetectionData, Detection
 class DataLoader:
 
     @staticmethod
-    def load_file(file: Path, image_path: Path) -> DetectionData:
+    def load_file(file: Path, image_path: Path) -> DetectionData:  # pragma: no cover
         data: Dict[str, Any] = loads(file.read_text())
 
         image_name = data.get('image', None)

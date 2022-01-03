@@ -4,3 +4,4 @@ sklearn
 Pillow
 pytest
 pytest-cov
+pytest-mock

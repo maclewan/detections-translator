@@ -34,4 +34,7 @@ def main():
 
 
 if __name__ == '__main__':
+    import os
+    print('*********************')
+    print(os.getcwd())
     main()

@@ -89,6 +89,8 @@ class FifeLineStaffGenerator(BaseStaffGenerator):
         for section, brace in sections:
             bar_lines = [bar for bar in self._bar_lines if bar.contains(y=section)]
             bar_lines.sort(key=lambda b: b.box[1])
+            # move last line left
+            bar_lines[-1].translate_x(delta=-bar_lines[-1].width//2)
             # TODO: Find brace top and bottom (shift image by width/2 right)
             y_ranges = [Bar.find_bar_y_coordinates(b, self._detection_data.image) for b in bar_lines]
             lines_distances.extend(

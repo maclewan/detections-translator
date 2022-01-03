@@ -60,4 +60,5 @@ class NoteTranslator(BaseFeatureTranslator):
 
         staff_first_note = bar.clefs[sub_staff].get_first_line_note()
         note = staff_first_note.plus(line*2)
+        note.sub_staff = sub_staff
         return note

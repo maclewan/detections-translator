@@ -15,6 +15,10 @@ class Detection:
     box: y_min, x_min, y_max, x_max
     """
 
+    def translate_x(self, delta: int):
+        b = self.box
+        self.box = [b[0], b[1] + delta, b[2], b[3] + delta]
+
     def set_staff(self, staff_id: int):
         self.staff_id = staff_id
 

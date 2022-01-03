@@ -2,3 +2,4 @@ pymusicxml
 numpy
 sklearn
 Pillow
+pymusicxml

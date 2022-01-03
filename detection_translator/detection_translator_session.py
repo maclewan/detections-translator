@@ -7,6 +7,7 @@ from detection_translator.feature_translator.base_feature_translator import Base
 from detection_translator.feature_translator.clef_translator import ClefTranslator
 from detection_translator.feature_translator.note_translator import NoteTranslator
 from detection_translator.common import NotationType
+from detection_translator.music_xml_generator import MusicXmlGenerator
 from detection_translator.staff_generator.base_staff_generator import BaseStaffGenerator
 from detection_translator.staff_generator.staff_generator_factory import StaffGeneratorFactory
 
@@ -38,6 +39,7 @@ class DetectionTranslatorSession:
         nt = NoteTranslator(staffs, self._detection_data)
         nt.translate()
 
-
+        mxml_generator = MusicXmlGenerator(staffs[1])
+        mxml_generator.generate()
 
         print('Done')

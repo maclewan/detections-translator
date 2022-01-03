@@ -55,8 +55,12 @@ class MusicXmlGenerator:
     @staticmethod
     def _get_section(section: List[DetectionNote]) -> List[List[Union[Note, Rest]]]:
 
-        top_notes = [Note(n.xml_name, 1) for n in section if n.sub_staff is SubStaff.TOP]
-        bottom_notes = [Note(n.xml_name, 1) for n in section if n.sub_staff is SubStaff.BOTTOM]
+        top_notes = [
+            (Note(n.xml_name, 1) if isinstance(n, DetectionNote) else Rest(duration=n.duration)) for n in section if n.sub_staff is SubStaff.TOP
+        ]
+        bottom_notes = [
+            (Note(n.xml_name, 1) if isinstance(n, DetectionNote) else Rest(duration=n.duration)) for n in section if n.sub_staff is SubStaff.BOTTOM
+        ]
         if len(top_notes) == 1:
             top_notes.append(Rest(1.0))
         if len(bottom_notes) == 1:

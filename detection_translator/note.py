@@ -86,3 +86,9 @@ class Note:
     @property
     def xml_name(self):
         return f'{PITCH_NAMES_MAP[self.pitch.value]}{self.alteration.xml_sign}{self.octave.value}'
+
+
+@dataclass
+class Rest:
+    sub_staff: SubStaff
+    duration: float = 1

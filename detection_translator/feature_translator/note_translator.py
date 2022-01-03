@@ -4,7 +4,7 @@ from detection_translator.bar import Bar
 from detection_translator.constants import NOTE_CLASSES, HEAD_AREA_MARGIN
 from detection_translator.detection import DetectionData, Detection
 from detection_translator.feature_translator.base_feature_translator import BaseFeatureTranslator
-from detection_translator.note import Note
+from detection_translator.note import Note, Rest
 from detection_translator.staff import Staff
 
 
@@ -30,8 +30,9 @@ class NoteTranslator(BaseFeatureTranslator):
         sections = []
         for note in bar_notes:
             if not ((bar.line_distance ** 2) * HEAD_AREA_MARGIN > note.height * note.width):
-                print('Is it note?', note, 'Skipping...')
-                continue
+                if not ('pause' in note.det_class):
+                    print('Is it note?', note, 'Skipping...')
+                    continue
             if not sections:
                 sections.append([note])
                 continue
@@ -58,7 +59,13 @@ class NoteTranslator(BaseFeatureTranslator):
     def _translate_detection(detection: Detection, bar: Bar) -> Note:
         line, sub_staff = bar.get_location(detection)
 
-        staff_first_note = bar.clefs[sub_staff].get_first_line_note()
-        note = staff_first_note.plus(line*2)
-        note.sub_staff = sub_staff
+        if detection.det_class == 'pause1':
+            note = Rest(sub_staff=sub_staff)
+
+        elif 'pause' not in detection.det_class:
+            staff_first_note = bar.clefs[sub_staff].get_first_line_note()
+            note = staff_first_note.plus(line*2)
+            note.sub_staff = sub_staff
+        else:
+            raise RuntimeError('Unexpected detection in note translator')
         return note

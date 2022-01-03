@@ -14,7 +14,7 @@ END_LINE_FIND_RATIO = 0.45
 
 OVERLAP_PARAMETER = 0.85
 
-HEAD_AREA_MARGIN = 2.3
+HEAD_AREA_MARGIN = 2.4
 
 MAX_ADDED_LINES = 2
 CENTERED_CLASSES = ['head1', 'head2', 'sign1', 'sign3', 'clef', 'clef2']

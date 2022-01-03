@@ -65,7 +65,7 @@ class Bar:
             bottom_line_y = y_pred + self.line_distance * (self.lines_count - 1)
         else:
             sub_staff = SubStaff.BOTTOM
-            bottom_line_y = self._bottom_line_predictor(detection.center.x)
+            bottom_line_y = self._bottom_line_predictor(detection.center.x) - 2 # -2 offset for pixels
         line = self._get_line_number(bottom_line_y, detection.center.y)
         return line, sub_staff
 

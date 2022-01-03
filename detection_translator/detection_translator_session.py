@@ -39,16 +39,5 @@ class DetectionTranslatorSession:
         nt.translate()
 
 
-        # det = self._detection_data.filter_detection_classes(3)
-        # det = [d for d in det if d in staffs[0].bars[0]]
-        # print(staffs[0].bars[0])
-        #
-        # for d in det:
-        #     t = staffs[0].bars[0].get_location(d)
-        #     print(t, d)
-
-        # for d in self._detection_data.filter_detection_classes(11):
-        #     if (d in staffs[2].bars[1]):
-        #         print(True, d)
 
         print('Done')

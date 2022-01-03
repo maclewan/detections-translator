@@ -1,3 +1,4 @@
+import logging
 from typing import List
 
 from detection_translator.bar import Bar
@@ -31,7 +32,7 @@ class NoteTranslator(BaseFeatureTranslator):
         for note in bar_notes:
             if not ((bar.line_distance ** 2) * HEAD_AREA_MARGIN > note.height * note.width):
                 if not ('pause' in note.det_class):
-                    print('Is it note?', note, 'Skipping...')
+                    logging.warning(f'Is it note? {note}. Skipping...')
                     continue
             if not sections:
                 sections.append([note])

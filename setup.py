@@ -6,8 +6,9 @@ setuptools.setup(
     version='0.0.1',
     author='Maciej Lewandowicz',
     author_email='maciek.lewandowicz@gmail.com',
-    description='Todo',
-    url='todo',
+    description='Part of engineering thesis project. Python library responsible for translating detected boxes into '
+                'MusicXML files',
+    url='',
     packages=setuptools.find_namespace_packages(include=('detection_translator.*', 'detection_translator')),
     classifiers=[
         'Intended Audience :: Developers',

@@ -14,14 +14,16 @@ class MusicXmlGenerator:
         self._staff = staff
 
     def generate(self, name: str):
+        top_bar_notes = [
+            bar_notes for bar in self._staff.bars if (bar_notes := self._get_bar(bar)[0]) is not None
+        ]
+        bottom_bar_notes = [
+            bar_notes for bar in self._staff.bars if (bar_notes := self._get_bar(bar)[1]) is not None
+        ]
         score = Score([
             PartGroup([
-                Part("Top", [
-                    self._get_bar(bar)[0] for bar in self._staff.bars
-                ]),
-                Part("Bottom", [
-                    self._get_bar(bar)[1] for bar in self._staff.bars
-                ])
+                Part("Top", top_bar_notes),
+                Part("Bottom", bottom_bar_notes)
             ]),
 
         ], title=name, composer="detections-translator")
@@ -29,6 +31,9 @@ class MusicXmlGenerator:
 
     def _get_bar(self, bar: Bar):
         sections = [self._get_section(s) for s in bar.sections]
+
+        if len(sections) == 0:
+            return None, None
 
         notes_soprano = []
         notes_alto = []

@@ -40,7 +40,7 @@ class NoteTranslator(BaseFeatureTranslator):
                 for section_note in section:
                     if (section_note.contains(x=note.center.x) or
                             (section_note.contains(y=note.center.y, margin=bar.line_distance // 3) and
-                             section_note.contains(x=note.center.x, margin=(bar.line_distance * 2 // 3)))):
+                             section_note.contains(x=note.center.x, margin=(bar.line_distance * 3 // 4)))):
                         section.append(note)
                         break
                 else:

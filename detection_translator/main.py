@@ -6,8 +6,8 @@ from detection_translator_session import DetectionTranslatorSession
 
 
 def main():
-    file = Path(DATA_PATH) / 'exported_data.json'
-    image = Path(DATA_PATH) / 'b2_115.png'
+    file = Path(DATA_PATH) / 'exported_data_b2_116.json'
+    image = Path(DATA_PATH) / 'b2_116.png'
     session = DetectionTranslatorSession(file, image, NotationType.FIFE_STAFF)
     session.process()
 

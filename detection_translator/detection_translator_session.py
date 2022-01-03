@@ -41,6 +41,6 @@ class DetectionTranslatorSession:
 
         for i, staff in enumerate(staffs):
             mxml_generator = MusicXmlGenerator(staff)
-            mxml_generator.generate(name=f'staff{i}')
+            mxml_generator.generate(name=f'{str(self._image_path.name).split(".")[0]}_staff{i}')
 
         print('Done')

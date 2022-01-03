@@ -5,7 +5,8 @@ from PIL import ImageEnhance
 import numpy as np
 
 from detection_translator.detection import Detection
-from detection_translator.constants import BAR_LINE_FIND_RATIO, END_LINE_FIND_RATIO, BAR_EXTENSION, MAX_ADDED_LINES, CENTER_FUNCTIONS
+from detection_translator.constants import (BAR_LINE_FIND_RATIO, END_LINE_FIND_RATIO, BAR_EXTENSION,
+                                            MAX_ADDED_LINES, CENTER_FUNCTIONS)
 from detection_translator.common import Point, SubStaff
 from detection_translator.clef import Clef
 from detection_translator.math_utils import get_polynomial_predictor
@@ -76,7 +77,7 @@ class Bar:
             result = (bottom_line_y - detection_y) / self.line_distance
         else:
             temp = (bottom_line_y - detection_y) - (self.line_distance * 4)
-            result = 4 + temp / (self.line_distance * 1.1)
+            result = 2 + temp / (self.line_distance * 1.1)
         return round(result * 2) / 2
 
     @staticmethod
@@ -155,5 +156,3 @@ def _prepare_pil_image(extended_box: List[int], image: Image) -> Image:
     cropped = image.crop(extended_pil_box)
     cropped = ImageEnhance.Contrast(cropped).enhance(6.0)
     return ImageEnhance.Brightness(cropped).enhance(2.0)
-
-# Todo: test me

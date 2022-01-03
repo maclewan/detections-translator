@@ -25,7 +25,6 @@ class BaseFeatureTranslator(ABC):
         self._translator_classes = translator_classes
         self._filter_detections()
 
-
     def _filter_detections(self):
         detections = self._detection_data.filter_detection_classes(self._translator_classes)
         self._update_detection_staff(detections)

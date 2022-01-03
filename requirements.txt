@@ -3,3 +3,4 @@ numpy
 sklearn
 Pillow
 pytest
+pytest-cov

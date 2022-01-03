@@ -1,7 +1,7 @@
 from typing import List, Callable
 import numpy as np
 from sklearn.linear_model import LinearRegression
-from common import Point
+from detection_translator.common import Point
 
 
 def find_regression(points: List[Point]) -> LinearRegression:

@@ -27,7 +27,7 @@ class MusicXmlGenerator:
             ]),
 
         ], title=name, composer="detections-translator")
-        score.export_to_file(f"data/{name}.musicxml")
+        score.export_to_file(f"{name}.musicxml")
 
     def _get_bar(self, bar: Bar):
         sections = [self._get_section(s) for s in bar.sections]

@@ -2,8 +2,8 @@ from pathlib import Path
 from json import loads
 from typing import Dict, Any, List
 from PIL.Image import open as open_image
-from constants import IMAGE_HEIGHT as HEIGHT, IMAGE_WIDTH as WIDTH
-from detection import DetectionData, Detection
+from detection_translator.constants import IMAGE_HEIGHT as HEIGHT, IMAGE_WIDTH as WIDTH
+from detection_translator.detection import DetectionData, Detection
 
 
 class DataLoader:

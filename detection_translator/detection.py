@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict, List, Union, Optional, Tuple
 from PIL.Image import Image
-from common import Point
+from detection_translator.common import Point
 from detection_translator.constants import OVERLAP_PARAMETER
 
 

@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 from typing import Any, Tuple, List, Optional, Union, Dict
 from PIL.Image import Image
-from detection import Detection
 from PIL import ImageEnhance
 import numpy as np
 
-from constants import BAR_LINE_FIND_RATIO, END_LINE_FIND_RATIO, BAR_EXTENSION, MAX_ADDED_LINES, CENTER_FUNCTIONS
+from detection_translator.detection import Detection
+from detection_translator.constants import BAR_LINE_FIND_RATIO, END_LINE_FIND_RATIO, BAR_EXTENSION, MAX_ADDED_LINES, CENTER_FUNCTIONS
 from detection_translator.common import Point, SubStaff
 from detection_translator.clef import Clef
 from detection_translator.math_utils import get_polynomial_predictor

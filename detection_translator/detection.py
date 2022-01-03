@@ -62,8 +62,8 @@ class Detection:
         :param y_translation: percent of detection down if positive, up if negative to translate y
         :return: Point(translated_center_y, translated_center_x)
         """
-        return Point(self.height // 2 + self.box[0] + x_translation / 100 * self.height,
-                     self.width // 2 + self.box[1] + + y_translation / 100 * self.width)
+        return Point(round(self.height // 2 + self.box[0] + x_translation / 100 * self.height, 2),
+                     round(self.width // 2 + self.box[1] + + y_translation / 100 * self.width, 2))
 
     def get_section(self, sections_y: List[int]):
         section_distances = []

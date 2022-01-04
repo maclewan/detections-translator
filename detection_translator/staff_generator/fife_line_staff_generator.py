@@ -13,7 +13,7 @@ class FifeLineStaffGenerator(BaseStaffGenerator):
     _lines_count = 5
     _avg_lines_distance: int
 
-    def __init__(self, detection_data: DetectionData):
+    def __init__(self, detection_data: DetectionData):  # pragma: no cover
         super().__init__(detection_data)
 
         self._generate_detection_classes()
@@ -43,7 +43,7 @@ class FifeLineStaffGenerator(BaseStaffGenerator):
 
         return Staff(index, bars)
 
-    def _create_bar(self, start: Detection, end: Detection, tops: List[Point], bottoms: List[Point]) -> Bar:
+    def _create_bar(self, start: Detection, end: Detection, tops: List[Point], bottoms: List[Point]) -> Bar:  # pragma: no cover
         return Bar(
             left_bottom=bottoms[0],
             left_top=tops[0],
@@ -55,12 +55,12 @@ class FifeLineStaffGenerator(BaseStaffGenerator):
             is_end=end.det_class == 'end_line'
         )
 
-    def _generate_detection_classes(self) -> None:
+    def _generate_detection_classes(self) -> None:  # pragma: no cover
         self._line_classes = [c for c, v in self._detection_data.category_index.items() if v in LINES_CLASSES]
         self._brace_class = next(c for c, v in self._detection_data.category_index.items() if v == BRACE_CLASS)
         self._staff_class = next(c for c, v in self._detection_data.category_index.items() if v == STAFF_CLASS)
 
-    def _get_detections(self) -> None:
+    def _get_detections(self) -> None:  # pragma: no cover
         braces = self._detection_data.filter_detection_classes(self._brace_class)
 
         self._bar_lines = self._detection_data.filter_detection_classes(self._line_classes)

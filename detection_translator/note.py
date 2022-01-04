@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Tuple
 
-from detection_translator.common import SubStaff
-
+from detection_translator.common import SubStaff, Point
+from detection_translator.detection import Detection
 
 PITCH_NAMES_MAP = {
     0: 'c',
@@ -67,13 +67,21 @@ class Head(Enum):
     HEAD_EMPTY = 1
 
 
+class Direction(Enum):
+    UP = 0
+    DOWN = 1
+
+
 @dataclass
 class Note:
     pitch: _Pitch
     octave: Octave
     head: Head = None
+    direction: Direction = None
+    duration: int = None
     alteration: Alteration = None
     sub_staff: SubStaff = None
+    center: Point = None
 
     def plus(self, steps: int) -> 'Note':
         new_pitch, octave_shift = self.pitch.plus(steps)
@@ -83,9 +91,24 @@ class Note:
             alteration=Alteration.NATURAL,
         )
 
+    def copy(self) -> 'Note':
+        return Note(
+            self.pitch,
+            self.octave,
+            self.head,
+            self.direction,
+            self.duration,
+            self.alteration,
+            self.sub_staff,
+            self.center,
+        )
+
     @property
-    def xml_name(self):
+    def xml_name(self) -> str:
         return f'{PITCH_NAMES_MAP[self.pitch.value]}{self.alteration.xml_sign}{self.octave.value}'
+
+    def check_rhythm_direction(self, rhythm: Detection) -> Direction:
+        return Direction.UP if self.center.y < rhythm.center.y else Direction.DOWN
 
 
 @dataclass

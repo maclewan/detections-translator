@@ -78,3 +78,13 @@ def test_filter_multiple(default_detection, default_detection1, default_detectio
     assert Detection.filter_multiple_occurrences([default_detection]*2) == [default_detection]
     assert Detection.filter_multiple_occurrences(
         [default_detection, default_detection1, default_detection2]) == [default_detection, default_detection1, default_detection2]
+
+
+def test_wtf():
+    d = Detection(
+        det_class='head1',
+        det_class_id=1,
+        box=[106, 327, 163, 352],
+        staff_id=0,
+    )
+    assert d.contains(y=150, x=337)

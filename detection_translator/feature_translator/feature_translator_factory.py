@@ -4,6 +4,7 @@ from detection_translator.common import NotationType
 from detection_translator.feature_translator.base_feature_translator import BaseFeatureTranslator
 from detection_translator.feature_translator.clef_translator import ClefTranslator
 from detection_translator.feature_translator.note_translator import NoteTranslator
+from detection_translator.feature_translator.rhythm_translator import RhythmTranslator
 
 
 class FeatureTranslatorFactory:
@@ -13,6 +14,7 @@ class FeatureTranslatorFactory:
             return [
                 ClefTranslator,
                 NoteTranslator,
+                RhythmTranslator,
                 # SignTranslator,
             ]
         # elif notation_type is NotationType.MENSURAL:

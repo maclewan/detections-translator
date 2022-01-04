@@ -5,7 +5,7 @@ from detection_translator.bar import Bar
 from detection_translator.constants import NOTE_CLASSES, HEAD_AREA_MARGIN
 from detection_translator.detection import DetectionData, Detection
 from detection_translator.feature_translator.base_feature_translator import BaseFeatureTranslator
-from detection_translator.note import Note, Rest
+from detection_translator.note import Note, Rest, Head
 from detection_translator.staff import Staff
 
 
@@ -67,6 +67,8 @@ class NoteTranslator(BaseFeatureTranslator):
             staff_first_note = bar.clefs[sub_staff].get_first_line_note()
             note = staff_first_note.plus(line*2)
             note.sub_staff = sub_staff
+            note.center = detection.center
+            note.head = Head.HEAD_FULL if detection.det_class == 'head1' else Head.HEAD_EMPTY
         else:
             raise RuntimeError('Unexpected detection in note translator')
         return note

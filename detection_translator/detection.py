@@ -91,13 +91,14 @@ class Detection:
         """
         if y is None and x is None:
             raise ValueError('Point with None coordinates')
-        elif y is not None:
+        if y is not None:
             if not (self.box[2] + margin > y > self.box[0] - margin):
                 return False
-        elif x is not None:
+        if x is not None:
             if not (self.box[3] + margin > x > self.box[1] - margin):
                 return False
         return True
+
 
     @staticmethod
     def filter_multiple_occurrences(detections: List['Detection']) -> List['Detection']:

@@ -7,7 +7,7 @@ from detection_translator.note import Note as DetectionNote
 from pymusicxml import Score, PartGroup, Part, Measure, Note, Rest
 
 
-class MusicXmlGenerator:
+class MusicXmlGenerator:  # pragma: no cover
     _staff: Staff
 
     def __init__(self, staff: Staff):

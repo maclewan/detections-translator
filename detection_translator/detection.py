@@ -79,7 +79,7 @@ class Detection:
         return self.box[2] < point.y
 
     @staticmethod
-    def sort_detections(detections: List['Detection']) -> List['Detection']:
+    def sort_detections(detections: List['Detection']) -> List['Detection']:  # pragma: no cover
         return list(sorted(detections, key=lambda d: (d.box[0], d.box[1])))
 
     def contains(self, y: Optional[int] = None, x: Optional[int] = None, margin: int = 0) -> bool:
@@ -132,7 +132,7 @@ class DetectionData:
     category_index: Dict[int, str]
     detections: List[Detection]
 
-    def filter_detection_classes(self, classes: Union[int, List[int]]) -> List[Detection]:
+    def filter_detection_classes(self, classes: Union[int, List[int]]) -> List[Detection]:  # pragma: no cover
         if isinstance(classes, list):
             return [d for d in self.detections if d.det_class_id in classes]
         elif isinstance(classes, int):

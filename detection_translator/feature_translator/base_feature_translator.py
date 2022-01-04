@@ -8,7 +8,7 @@ from detection_translator.staff import Staff
 logging.basicConfig(level=logging.INFO, format='%(asctime)s :: %(levelname)s :: %(message)s')
 
 
-class BaseFeatureTranslator(ABC):
+class BaseFeatureTranslator(ABC):  # pragma: no cover
     _staffs: List[Staff]
     _detection_data: DetectionData
     _translator_classes: Optional[List[int]]

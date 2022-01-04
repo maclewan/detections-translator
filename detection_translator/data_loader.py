@@ -6,7 +6,7 @@ from detection_translator.constants import IMAGE_HEIGHT as HEIGHT, IMAGE_WIDTH a
 from detection_translator.detection import DetectionData, Detection
 
 
-class DataLoader:
+class DataLoader:  # pragma: no cover
 
     @staticmethod
     def load_file(file: Path, image_path: Path) -> DetectionData:  # pragma: no cover

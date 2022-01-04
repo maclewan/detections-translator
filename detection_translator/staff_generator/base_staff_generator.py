@@ -4,7 +4,7 @@ from detection_translator.detection import Detection, DetectionData
 from detection_translator.staff import Staff
 
 
-class BaseStaffGenerator(ABC):
+class BaseStaffGenerator(ABC):  # pragma: no cover
     _detection_data: DetectionData
     _line_classes: List[int]
     _staff_class: int

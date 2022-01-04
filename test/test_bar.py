@@ -5,6 +5,7 @@ import pytest
 from detection_translator.bar import Bar, _find_horizontal_lines_distances, _find_horizontal_line_margin
 from detection_translator.common import Point, SubStaff
 from detection_translator.detection import Detection
+from detection_translator.staff import Staff
 
 
 def _generate_n_line_image(n):
@@ -20,6 +21,27 @@ def _generate_n_line_image(n):
     data.extend([white_line for _ in range(3)])
 
     return np.array(data)
+
+
+@pytest.fixture
+def default_detection():
+    return Detection(
+        det_class='head1',
+        det_class_id=1,
+        box=[10, 10, 100, 150],
+        staff_id=0,
+    )
+
+
+@pytest.fixture
+def default_detection1():
+    return Detection(
+        det_class='head1',
+        det_class_id=1,
+        box=[5010, 5010, 5100, 5150],
+        staff_id=0,
+    )
+
 
 
 @pytest.fixture
@@ -152,3 +174,8 @@ def test_find_horizontal_margin(image_np_5line, image_np_0line):
     with pytest.raises(ValueError, match='Cannot find staff on bar line'):
         _find_horizontal_line_margin(image_np_0line, 'bar_line', from_top=False)
 
+
+def test_staff_contains(default_bar, default_detection, default_detection1):
+    staff = Staff(0, [default_bar])
+    assert default_detection in staff
+    assert default_detection1 not in staff

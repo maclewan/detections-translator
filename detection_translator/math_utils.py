@@ -4,7 +4,7 @@ from sklearn.linear_model import LinearRegression
 from detection_translator.common import Point
 
 
-def find_regression(points: List[Point]) -> LinearRegression:
+def find_regression(points: List[Point]) -> LinearRegression:  # pragma: no cover
     x = np.array([p.x for p in points]).reshape((-1, 1))
     y = np.array([p.y for p in points])
     model = LinearRegression()

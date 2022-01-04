@@ -14,7 +14,7 @@ class ClefTranslator(BaseFeatureTranslator):
         translator_classes = [k for k, v in detection_data.category_index.items() if v in CLEFS_CLASSES]
         super().__init__(staffs, detection_data, translator_classes)
 
-    def _translate(self, staff: Staff):
+    def _translate(self, staff: Staff):  # pragma: no cover
         detections = [d for d in self._filtered_detections if d.staff_id == staff.index]
 
         # get bars from detections

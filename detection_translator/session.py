@@ -14,7 +14,7 @@ from detection_translator.staff_generator.staff_generator_factory import StaffGe
 logging.basicConfig(level=logging.INFO, format='%(asctime)s :: %(levelname)s :: %(message)s')
 
 
-class DetectionTranslatorSession:
+class DetectionTranslatorSession:  # pragma: no cover
     _detection_data: DetectionData
     _file: Path
     _image_path: Path
@@ -35,17 +35,24 @@ class DetectionTranslatorSession:
 
     def process(self):
         logging.info('Start finding staffs...')
+
         staff_finder = self._staff_generator(self._detection_data)
         staffs = staff_finder.generate()
+
         logging.info('Staffs found!')
 
         logging.info('Start translation...')
+
         for Translator in self._translators:
             translator = Translator(staffs, self._detection_data)
             translator.translate()
+
         logging.info('Translated!')
+
         logging.info('Start generating xml files')
+
         for i, staff in enumerate(staffs):
             mxml_generator = MusicXmlGenerator(staff)
             mxml_generator.generate(name=f'{self._output_directory}/{str(self._image_path.name).split(".")[0]}_staff{i}')
+
             logging.info(f'File {str(self._image_path.name).split(".")[0]}_staff{i}.musicxml generated')

@@ -8,6 +8,9 @@ pip install -r requiremenets.txt
 # Tests
 Run tests and coverage:
 ```bash
-pytest --cov detection_translator test/
 pytest --cov-report term-missing --cov detection_translator test
+```
+Exclude integration test:
+```bash
+pytest --cov-report term-missing --cov detection_translator test --ignore=test/test_integration.py 
 ```

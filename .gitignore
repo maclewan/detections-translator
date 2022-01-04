@@ -1,3 +1,5 @@
 .venv
 .idea
 build
+.coverage
+test/data/test_staff*

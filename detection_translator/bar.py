@@ -77,7 +77,7 @@ class Bar:
             result = (bottom_line_y - detection_y) / self.line_distance
         else:
             temp = (bottom_line_y - detection_y) - (self.line_distance * 4)
-            result = 2 + temp / (self.line_distance * 1.1)
+            result = 4 + temp / (self.line_distance * 1.1)
         return round(result * 2) / 2
 
     @staticmethod

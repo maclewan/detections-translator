@@ -34,7 +34,10 @@ class BaseFeatureTranslator(ABC):  # pragma: no cover
 
     def _update_detection_staff(self, detections: List[Detection]):
         for det in detections:
-            staff_id = next(staff for staff in self._staffs if det in staff).index
+            try:
+                staff_id = next(staff for staff in self._staffs if det in staff).index
+            except StopIteration:
+                staff_id = -1
             det.set_staff(staff_id)
 
     def translate(self):

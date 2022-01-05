@@ -61,7 +61,7 @@ class NoteTranslator(BaseFeatureTranslator):
         line, sub_staff = bar.get_location(detection)
 
         if detection.det_class == 'pause1':
-            note = Rest(sub_staff=sub_staff)
+            note = Rest(sub_staff=sub_staff, center=detection.center)
 
         elif 'pause' not in detection.det_class:
             staff_first_note = bar.clefs[sub_staff].get_first_line_note()

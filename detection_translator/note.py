@@ -16,7 +16,6 @@ PITCH_NAMES_MAP = {
 }
 
 
-
 class _Pitch(Enum):
     C = 0
     D = 1
@@ -115,3 +114,5 @@ class Note:
 class Rest:
     sub_staff: SubStaff
     duration: float = 1
+    center: Point = None
+    direction = None

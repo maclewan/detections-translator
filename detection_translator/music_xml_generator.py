@@ -92,14 +92,18 @@ class MusicXmlGenerator:  # pragma: no cover
 
         voices = [notes_soprano, notes_alto, notes_tenor, notes_bass]
 
-
         return notes_soprano, notes_alto, notes_tenor, notes_bass
 
     @staticmethod
     def _get_section(raw_section: List[DetectionNote]) -> List[List[Tuple[Union[Note, Rest], DetectionNote]]]:
         for note in raw_section:
             if note.duration is None:
-                note.duration = input_length(note.center)
+                duration = input_length(note.center)
+                if not duration:
+                    raw_section.remove(note)
+                    continue
+                else:
+                    note.duration = duration
 
         raw_section.sort(key=lambda d: d.center.y)
 
@@ -113,11 +117,6 @@ class MusicXmlGenerator:  # pragma: no cover
              else (Rest(duration=n.duration), None))
             for n in raw_section if n.sub_staff is SubStaff.BOTTOM
         ]
-        # if len(top_notes) == 1:
-        #     top_notes.append(Rest(1.0))
-        # if len(bottom_notes) == 1:
-        #     bottom_notes.append(Rest(1.0))
-
         return [top_notes, bottom_notes]
 
 
@@ -130,7 +129,8 @@ def input_direction(coords: Point) -> Direction:
 def input_length(coords: Point) -> float:
     sleep(0.1)
     try:
-        return float(input(f'Input note on {coords} length (1: quarter, 0.5: eight, ect): '))
+        val = float(input(f'Input note on {coords} length (1: quarter, 0.5: eight, ect). If not a note input 0: '))
     except ValueError:
         print('Wrong value, assuming quarter')
         return 1.0
+    return None if val == 0 else val

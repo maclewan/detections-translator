@@ -26,7 +26,7 @@ class RhythmTranslator(BaseFeatureTranslator):
                         continue
                     rhythm_candidates = [r for r in bar_rhythms if
                                          r.contains(y=note.center.y, x=note.center.x,
-                                                    margin=0)]  # todo: maybe negativa value
+                                                    margin=0)]  # todo: maybe negative value
                     rhythm_candidates.sort(key=lambda r: abs(r.center.x - note.center.x))
                     if len(rhythm_candidates) > 1 and len(section) < 4:
                         c1, c2 = rhythm_candidates[0], rhythm_candidates[1]

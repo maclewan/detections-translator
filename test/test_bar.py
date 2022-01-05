@@ -148,7 +148,7 @@ def test_get_location(default_bar, detection_head_bottom, detection_head_top, de
     assert default_bar.get_location(detection_head_bottom) == (0.5, SubStaff.BOTTOM)
     assert default_bar.get_location(detection_head_top) == (3.5, SubStaff.TOP)
     assert default_bar.get_location(detection_head_under) == (-2.0, SubStaff.BOTTOM)
-    assert default_bar.get_location(detection_head_over) == (3.0, SubStaff.TOP)
+    assert default_bar.get_location(detection_head_over) == (5.0, SubStaff.TOP)
 
 
 def test_find_bar_y_coords(default_bar, mocker, detection_head_top):
